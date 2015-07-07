@@ -12,7 +12,7 @@ from codecs import open
 from setuptools import setup
 from setuptools import find_packages
 
-from dns_sprockets import _VERSION
+from dns_sprockets_version import VERSION
 
 
 # Get the long description from the relevant file:
@@ -23,14 +23,14 @@ with open(os.path.join(THIS_DIR, 'README.rst'), encoding='utf-8') as the_file:
 
 setup(
     name='dns_sprockets',
-    version=_VERSION,
+    version=VERSION,
     license='Apache License, Version 2.0',
     author='Ashley Roeckelein',
     author_email='ashley.roeckelein@neustar.biz',
     maintainer='Ashley Roeckelein',
     maintainer_email='roeckelein@gmail.com',
     url='https://github.com/roeckelein/dns_sprockets',
-    description='Command-line DNS zone validation tool',
+    description='Command-line DNS Zone validation tool',
     long_description=long_description,
     classifiers=[
         'Development Status :: 4 - Beta',
@@ -55,7 +55,12 @@ setup(
         'dnspython>=1.12',
         'pycrypto>=2.6'],
     packages=find_packages(),
-    py_modules=['dns_sprockets'],
-    entry_points={'console_scripts': ['dns_sprockets = dns_sprockets:run']})
+    py_modules=[
+        'dns_sprockets_version',
+        'dns_sprockets'],
+    entry_points={'console_scripts': ['dns_sprockets = dns_sprockets:run']},
+    include_package_data=True,
+    package_data={
+        'dns_sprockets_lib/tests/data': ['dns_sprockets_lib/tests/data/*']})
 
 # end of file

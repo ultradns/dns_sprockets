@@ -10,6 +10,7 @@ dns_sprockets - A command-line tool to validate DNS zones.
 import os
 import time
 
+from dns_sprockets_version import VERSION
 import dns_sprockets_lib.utils as utils
 import dns_sprockets_lib.loaders as loaders
 import dns_sprockets_lib.loader_classes as loader_classes
@@ -19,8 +20,7 @@ from dns_sprockets_lib.dns_sprockets_impl import DNSSprocketsImpl
 
 
 _PRODUCT = 'dns_sprockets'
-_VERSION = '1.0.0'
-_BANNER = '%s (%s) - A DNS zone validation tool' % (_PRODUCT, _VERSION)
+_BANNER = '%s (%s) - A DNS Zone validation tool' % (_PRODUCT, VERSION)
 _DEFAULT_ZONE = 'www.ultradns.com'
 _DEFAULT_LOADER = 'xfr'
 _DEFAULT_SOURCE = '127.0.0.1#53'

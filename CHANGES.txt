@@ -3,7 +3,7 @@ Change List
 
 * 2015-07-06 (Version 1.0.0)
 
-    - Initial GitHub/PyPi version.
+    - Initial GitHub/PyPI version.
     - Loaders/validators framework completed.
     - From-file and from-XFR zone loaders present.
     - Some validators (focus mainly on DNSSEC-types) present.
