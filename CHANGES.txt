@@ -1,0 +1,10 @@
+Change List
+-----------
+
+* 2015-07-06 (Version 1.0.0)
+
+    - Initial GitHub/PyPi version.
+    - Loaders/validators framework completed.
+    - From-file and from-XFR zone loaders present.
+    - Some validators (focus mainly on DNSSEC-types) present.
+    - Nosetests added for code, loaders, and validators.

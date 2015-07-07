@@ -1,0 +1,8 @@
+Copyright Notice
+----------------
+
+Copyright 2015 Neustar, Inc. All rights reserved.
+
+Neustar, the Neustar logo and related names and logos are registered trademarks,
+service marks or tradenames of Neustar, Inc. All other product names, company
+names, marks, logos and symbols may be trademarks of their respective owners.

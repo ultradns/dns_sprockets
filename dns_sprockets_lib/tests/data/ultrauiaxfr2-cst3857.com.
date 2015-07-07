@@ -1,0 +1,25 @@
+$ORIGIN .
+$TTL 96600  ; 1 day 2 hours 50 minutes
+ultrauiaxfr2-cst3857.com IN SOA udns1.ultradns.net. amoorthy.qa.neustar.com. (
+                2011062201 ; serial
+                10800 ; refresh
+                3600 ; retry
+                2592000 ; expire
+                86400 ; minimum
+                )
+ultrauiaxfr2-cst3857.com. 86400   IN  NS  udns2.ultradns.net.
+ultrauiaxfr2-cst3857.com. 86400   IN  NS  udns1.ultradns.net.
+a3.ultrauiaxfr2-cst3857.com. 86400 IN A 14.13.12.11
+aaaa.ultrauiaxfr2-cst3857.com.    86400   IN  AAAA    2001:0000:0000:0000:0000:0000:0000:0001
+cname.ultrauiaxfr2-cst3857.com.   86400   IN  CNAME   alias.biz.
+hinfo.ultrauiaxfr2-cst3857.com.   86400   IN  HINFO   Windows Acer
+mx.ultrauiaxfr2-cst3857.com.  86400   IN  MX  8 mxmail.net.
+ultrauiaxfr2-cst3857.com. 86400   IN  NS  udns3.ultradns.net.
+ultrauiaxfr2-cst3857.com. 86400   IN  NS  udns4.ultradns.net.
+rp.ultrauiaxfr2-cst3857.com.  86400   IN  RP  rp.rpmail.com. txt.com.
+srv.ultrauiaxfr2-cst3857.com. 86400   IN  SRV 4 8 8080 target.com.
+txt.ultrauiaxfr2-cst3857.com. 86400   IN  TXT "comments123"
+a1.ultrauiaxfr2-cst3857.com. 86400 IN A 10.11.12.13
+a2.ultrauiaxfr2-cst3857.com. 86400 IN A 13.12.11.10
+a3.ultrauiaxfr2-cst3857.com. 86400 IN A 14.13.12.11
+
