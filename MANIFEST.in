@@ -1,0 +1,7 @@
+include AUTHORS.txt
+include CHANGES.txt
+include COPYRIGHT.txt
+include LICENSE.txt
+include README.rst
+recursive-include docs *
+recursive-include dns_sprockets_lib/tests/data *
