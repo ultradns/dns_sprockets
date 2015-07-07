@@ -1,6 +1,10 @@
 Change List
 -----------
 
+* 2015-07-07 (Version 1.0.1)
+
+    - Fix "Sample Usage" example in README.rst.
+
 * 2015-07-06 (Version 1.0.0)
 
     - Initial GitHub/PyPI version.
