@@ -143,7 +143,7 @@ state the "now" time to use for two of the validators.  Assuming a bash-like she
     
     $ TIME_NOW=20100101000000
     
-    $ dns_sprocket -z example -l file -s $ZONE_FILE -e \
+    $ dns_sprockets -z example -l file -s $ZONE_FILE -e \
         -d rrsig_missing_now=$TIME_NOW -d rrsig_orphan_now=$TIME_NOW
     
     # dns_sprockets (1.0.0) - A DNS Zone validation tool

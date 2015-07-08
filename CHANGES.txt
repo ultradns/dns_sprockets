@@ -1,6 +1,11 @@
 Change List
 -----------
 
+* 2015-07-08 (Version 1.0.2)
+
+    - More fix "Sample Usage" example in README.rst.
+    - Change project homepage to ultradns GitHub group.
+
 * 2015-07-07 (Version 1.0.1)
 
     - Fix "Sample Usage" example in README.rst.

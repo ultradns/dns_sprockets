@@ -28,8 +28,8 @@ setup(
     author='Ashley Roeckelein',
     author_email='ashley.roeckelein@neustar.biz',
     maintainer='Ashley Roeckelein',
-    maintainer_email='roeckelein@gmail.com',
-    url='https://github.com/roeckelein/dns_sprockets',
+    maintainer_email='ashley.roeckelein@neustar.biz',
+    url='https://github.com/ultradns/dns_sprockets',
     description='Command-line DNS Zone validation tool',
     long_description=long_description,
     classifiers=[
