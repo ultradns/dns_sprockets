@@ -1,6 +1,13 @@
 Change List
 -----------
 
+* 2015-07-09 (Version 1.0.3)
+
+    - Add some more "Sample Usage" in README.rst.
+    - Add "Developer Information" section in README.rst.
+    - Switch some function/method docstrings to sphinx-style (more to do...)
+    - New utils.process_optargs() function contains common code.
+
 * 2015-07-08 (Version 1.0.2)
 
     - More fix "Sample Usage" example in README.rst.

@@ -1,5 +1,6 @@
 '''
 __init__.py - Validators library for dns_sprockets zone validator.
+------------------------------------------------------------------
 
 .. Copyright (c) 2015 Neustar, Inc. All rights reserved.
 .. See COPYRIGHT.txt for full notice.  See LICENSE.txt for terms and conditions.
@@ -28,9 +29,10 @@ import dns_sprockets_lib.dns_utils as dns_utils
 def test_type_to_str(test_type, test_rrtype=None):
     '''
     Convert a test_type and test_rrtype to a string for output purposes.
-    @param test_type The TEST_TYPE attribute from the test.
-    @param test_rrtype The string describing record type(s) covered by the test.
-    @return Description string for test.
+
+    :param int test_type: The TEST_TYPE attribute from the test.
+    :param str test_rrtype: The string describing record type(s) covered by the test.
+    :return: Description string for test.
     '''
     specific = test_rrtype and '[%s]' % (test_rrtype) or ''
     if test_type == ZONE_TEST:
@@ -48,11 +50,12 @@ def rec_to_abbrev_text(name, ttl, klass, rdata):
     Translates a record to abbreviated text.  For most records, this is the
     same as the to_text(); for others (such as RRSIG), it is truncated to
     attempt to fit on a single terminal line.
-    @param name The owner name of the record.
-    @param ttl The TTL integer for the record.
-    @param klass The class of the record.
-    @param rdata The rdata of the record.
-    @return Text description of the record.
+
+    :param str name: The owner name of the record.
+    :param int ttl: The TTL for the record.
+    :param int/str klass: The class of the record.
+    :param obj rdata: The rdata of the record.
+    :return: Text description of the record.
     '''
     if isinstance(rdata, dns.rdtypes.ANY.RRSIG.RRSIG):
         # pylint: disable=protected-access
@@ -79,8 +82,9 @@ def rec_to_abbrev_text(name, ttl, klass, rdata):
 def dnssec_filter_tests_by_context(tests, context):
     '''
     Removes any tests from the tests list that do not apply to the context.
-    @param tests List of tests to filter.
-    @param context The context being used.
+
+    :param list tests: List of tests to filter.
+    :param obj context: The context being used.
     '''
     remove_tests = []
 
@@ -112,9 +116,11 @@ def filter_node(node, test_rrtype):
     Returns a node that has rdatasets that match the test RR types.  If the
     test_rrtype is specified, a new, temporary node for use by the validator
     will be generated, which only has those rdatasets mentioned.
-    @param node The node to inspect.
-    @param test_rrtype The string description of RR type(s) that the test covers.
-    @return The node for the validator to examine.
+
+    :param obj node: The node to inspect.
+    :param str test_rrtype: The string description of RR type(s) that the test covers.
+    :return: The node for the validator to examine.
+    :rtype: obj
     '''
     if not test_rrtype:
         return node
@@ -129,9 +135,10 @@ def filter_node(node, test_rrtype):
 def test_covers_type(test, rdtype):
     '''
     Checks to see if a test covers a RR type.
-    @param test The test to examine.
-    @param rdtype The dns.rdatatype for the rdataset/record under consideration.
-    @return True if the test covers the type; False if not.
+
+    :param obj test: The test to examine.
+    :param int rdtype: The dns.rdatatype for the rdataset/record under consideration.
+    :return: True if the test covers the type; False if not.
     '''
     if not test.TEST_RRTYPE:
         return True
@@ -147,10 +154,11 @@ def make_suggested_tested(test, context, **kwargs):
     record, and this is the suggested description.  Usually, specific test
     instances will use this value for 'tested' return variable, but are free
     to ignore this description in favor of their own if desired.
-    @param test The test being run.
-    @param context The testing context.
-    @param kwargs Optional, test-type-specific parameters.
-    @return A string describing the test instance being run.
+
+    :param obj test: The test being run.
+    :param obj context: The testing context.
+    :param dict kwargs: Optional, test-type-specific parameters.
+    :return: A string describing the test instance being run.
     '''
     if test.TEST_TYPE == ZONE_TEST:
         suggested_tested = 'ZONE(%s %s)' % (
@@ -183,8 +191,10 @@ class Context(object):
     '''
     def __init__(self, args, zone_obj):
         '''
-        @param args The application arguments.
-        @param zone_obj The dns.zone.Zone instance.
+        Ctor.
+
+        :param obj args: The application arguments.
+        :param obj zone_obj: The dns.zone.Zone instance.
         '''
         self.zone_name = dns.name.from_text(args.zone)
         self.zone_obj = zone_obj
@@ -245,7 +255,7 @@ class Context(object):
 
     def is_delegated(self, name):
         '''
-        @return True if name is delegated w.r.t. the context.
+        :return: True if name is delegated w.r.t. the context.
         '''
         return dns_utils.is_delegated(self.delegated_names, name)
 
@@ -275,10 +285,7 @@ class _Validator(object):
         self.TEST_NAME = utils.camelcase_to_underscores(self.__class__.__name__)
         self.args = args
 
-        for (oname, (opt_default, _)) in self.TEST_OPTARGS.iteritems():
-            opt_name = '%s_%s' % (self.TEST_NAME, oname)
-            setattr(self, oname, hasattr(self.args, opt_name) and
-                        getattr(self.args, opt_name) or opt_default)
+        utils.process_optargs(self.TEST_OPTARGS, self.TEST_NAME, self)
 
 
 class ZoneTest(_Validator):
@@ -292,9 +299,10 @@ class ZoneTest(_Validator):
         # pylint: disable=unused-argument
         '''
         Runs the zone-type validator.
-        @param context The testing context.
-        @param suggested_tested A suggested tested value.
-        @return (tested, result)
+
+        :param str suggested_tested: A suggested tested value.
+        :param obj context: The testing context.
+        :return: A tuple (tested, result)
         '''
         return ('OOPS!', 'ERROR: run() not overridden for %s' % (self.TEST_NAME))
 
@@ -312,11 +320,12 @@ class NodeTest(_Validator):
         '''
         Runs the node-type validator.  If a TEST_RRTYPE specified, the node
         presented to the validator will be filtered accordingly.
-        @param context The testing context.
-        @param suggested_tested A suggested tested value.
-        @param name The name being tested.
-        @param node The dns.Node corresponding to the name.
-        @return (tested, result)
+
+        :param obj context: The testing context.
+        :param str suggested_tested: A suggested tested value.
+        :param str name: The name being tested.
+        :param obj node: The dns.Node corresponding to the name.
+        :return: A tuple (tested, result)
         '''
         return ('OOPS!', 'ERROR: run() not overridden for %s' % (self.TEST_NAME))
 
@@ -334,11 +343,12 @@ class RRSetTest(_Validator):
         '''
         Runs the name-type validator.  If a TEST_RRTYPE is specified, the RRSet
         presented to the validator will be filtered accordingly.
-        @param context The testing context.
-        @param suggested_tested A suggested tested value.
-        @param name The name being tested.
-        @param rdataset The dns.rdataset corresponding to the name.
-        @return (tested, result)
+
+        :param obj context: The testing context.
+        :param str suggested_tested: A suggested tested value.
+        :param str name: The name being tested.
+        :param obj rdataset: The dns.rdataset corresponding to the name.
+        :return: A tuple (tested, result)
         '''
         return ('OOPS!', 'ERROR: run() not overridden for %s' % (self.TEST_NAME))
 
@@ -357,12 +367,13 @@ class RecTest(_Validator):
         '''
         Runs the record-type validator.  If a TEST_RRTYPE is specified, the
         validator will only see those types of records.
-        @param context The testing context.
-        @param suggested_tested A suggested tested value.
-        @param name The name of the record being tested.
-        @param ttl The TTL of the record being tested.
-        @param rdata The dns.rdata.Rdata object being tested.
-        @return (tested, result)
+
+        :param obj context: The testing context.
+        :param str suggested_tested: A suggested tested value.
+        :param str name: The name of the record being tested.
+        :param int ttl: The TTL of the record being tested.
+        :param obj rdata: The dns.rdata.Rdata object being tested.
+        :return: A tuple (tested, result)
         '''
         return ('OOPS!', 'ERROR: run() not overridden for %s' % (self.TEST_NAME))
 

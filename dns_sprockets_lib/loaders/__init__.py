@@ -1,5 +1,6 @@
 '''
 __init__.py - Loaders for "dns_sprockets" zone validator.
+---------------------------------------------------------
 
 .. Copyright (c) 2015 Neustar, Inc. All rights reserved.
 .. See COPYRIGHT.txt for full notice.  See LICENSE.txt for terms and conditions.
@@ -32,15 +33,13 @@ class ZoneLoader(object):
         self.LOADER_NAME = utils.camelcase_to_underscores(self.__class__.__name__)
         self.args = args
 
-        for (oname, (opt_default, _)) in self.LOADER_OPTARGS.iteritems():
-            opt_name = '%s_%s' % (self.LOADER_NAME, oname)
-            setattr(self, oname, hasattr(self.args, opt_name) and
-                        getattr(self.args, opt_name) or opt_default)
+        utils.process_optargs(self.LOADER_OPTARGS, self.LOADER_NAME, self)
 
     def run(self):
         '''
         Runs the zone loader -- must override!
-        @return A dns.zone.Zone instance.
+
+        :return: A dns.zone.Zone instance.
         '''
         pass
 

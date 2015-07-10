@@ -19,7 +19,7 @@ def encode_salt(bin_salt):
     '''
     Encodes binary NSEC3-type "salt" values to hexadecimal representation.
 
-    :param binary_str bin_salt: The binary salt to encode.
+    :param str bin_salt: The binary salt to encode.
     :return: Lowercase hexadecimal representation of the salt.
     :rtype: str, or None on failure
     '''
@@ -35,7 +35,7 @@ def decode_salt(hex_salt):
 
     :param str hex_salt: The hex-encoded salt to decode.
     :return: Binary value of the salt value.
-    :rtype: binary_str, or None on failure
+    :rtype: str, or None on failure
     '''
     try:
         return hex_salt.decode('hex-codec')
@@ -48,7 +48,7 @@ def hash_nsec3_name(name, salt, algo, addl_iters, salt_is_binary=True):
     Hashes a domain name using indicated hashing algorithm / iterations.
 
     :param str name: The domain name to hash.
-    :param (binary)str salt: The salt to use (or empty string).
+    :param str salt: The salt to use (or empty string).
     :param int algo: The hashing algorithm to use.
     :param int addl_iters: The additional iterations to be applied.
     :param bool salt_is_binary: Set True if the salt is binary; False if hex-encoded.
@@ -88,7 +88,7 @@ def _windows_covers(windows, rrtype):
 
     :param list windows: An NSEC or NSEC3 windows list.
     :param int rrtype: The dns.rdatatype to test.
-    :return: True if the windows covers the type; false if not.
+    :return: True if the windows covers the type; False if not.
     '''
     window = rrtype // 256
     for win in windows:
@@ -107,9 +107,9 @@ def covers(nsecx_rdata, rrtype):
     '''
     Check to see if an NSECx covers a type.
 
-    :param rdata nsec_rdata: An NSEC or NSEC3 instance.
+    :param obj nsec_rdata: An NSEC or NSEC3 instance.
     :param int rrtype: The dns.rdatatype to test.
-    :return: True if the NSECx covers the type; false if not.
+    :return: True if the NSECx covers the type; False if not.
     '''
     return _windows_covers(nsecx_rdata.windows, rrtype)
 
@@ -120,7 +120,6 @@ def _windows_get_covered_types(windows):
 
     :param list windows: An NSEC or NSEC3 windows list.
     :return: List of dns.rdatatype's that the NSECx covers.
-    :rtype: list
     '''
     types = []
     for win in windows:
@@ -140,9 +139,8 @@ def get_covered_types(nsecx_rdata):
     '''
     Gets list of types covered by an NSECx.
 
-    :param rdata nsecx_rdata: The NSEC or NSEC3 instance.
+    :param obj nsecx_rdata: The NSEC or NSEC3 instance.
     :return: List of dns.rdatatype's that the NSECx covers.
-    :rtype: list
     '''
     return _windows_get_covered_types(nsecx_rdata.windows)
 
