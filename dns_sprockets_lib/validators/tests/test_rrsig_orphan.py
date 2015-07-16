@@ -53,7 +53,7 @@ def test_rrsig_orphan():
     assert errs == 1
 
     (tests, errs) = harness.test_validator(
-        test_name='rrsig_missing',
+        test_name='rrsig_orphan',
         zone_name='001.cst.net',
         file_name='001.cst.net._rrsig_bad_algo',
         extra_defines=['rrsig_orphan_now=20150701000000'])

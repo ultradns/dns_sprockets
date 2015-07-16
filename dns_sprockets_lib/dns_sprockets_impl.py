@@ -1,5 +1,6 @@
 '''
 dns_sprockets_impl - DNS Zone validation tool implementation class.
+-------------------------------------------------------------------
 
 .. Copyright (c) 2015 Neustar, Inc. All rights reserved.
 .. See COPYRIGHT.txt for full notice.  See LICENSE.txt for terms and conditions.
@@ -22,9 +23,10 @@ class DNSSprocketsImpl(object):
     def __init__(self, avail_loaders, avail_tests, args):
         '''
         Constructor.
-        @param avail_loaders List of loader module names.
-        @param avail_tests LIst of validator module names.
-        @param args The application's command-line args.
+
+        :param list avail_loaders: List of loader module names.
+        :param list avail_tests: List of validator module names.
+        :param obj args: The application's command-line args.
         '''
         self.avail_loaders = avail_loaders
         self.avail_tests = avail_tests
@@ -34,7 +36,8 @@ class DNSSprocketsImpl(object):
         '''
         Runs the instance, which loads a zone with the specified loader, and
         loads and runs the specified tests.
-        @return (loader_elapsed_time, test_count, error_count)
+
+        :return: A 3-tuple (loader_elapsed_time, test_count, error_count)
         '''
 
         # Create the zone loader instance:
@@ -122,11 +125,12 @@ class DNSSprocketsImpl(object):
     def _run_test(args, test, context, counts, **kwargs):
         '''
         Runs an individual test.
-        @param args The application's command-line args.
-        @param test The validator instance to use.
-        @param context The testing context.
-        @param counts Dictionary of test and error counts.
-        @param kwargs Other parameters specific to the TEST_TYPE being run.
+
+        :param obj args: The application's command-line args.
+        :param obj test: The validator instance to use.
+        :param obj context: The testing context.
+        :param dict counts: Dictionary of test and error counts.
+        :param dict kwargs: Other parameters specific to the TEST_TYPE being run.
         '''
         suggested_tested = validators.make_suggested_tested(test, context, **kwargs)
         (tested, result) = test.run(context, suggested_tested, **kwargs)

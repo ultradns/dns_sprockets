@@ -20,8 +20,7 @@ def encode_salt(bin_salt):
     Encodes binary NSEC3-type "salt" values to hexadecimal representation.
 
     :param str bin_salt: The binary salt to encode.
-    :return: Lowercase hexadecimal representation of the salt.
-    :rtype: str, or None on failure
+    :return: Lowercase hexadecimal string representating the salt (or None for failure).
     '''
     try:
         return bin_salt.encode('hex-codec')
@@ -34,8 +33,7 @@ def decode_salt(hex_salt):
     Decodes hexedecimal representation of NSEC3-type "salt" values to binary.
 
     :param str hex_salt: The hex-encoded salt to decode.
-    :return: Binary value of the salt value.
-    :rtype: str, or None on failure
+    :return: Binary value string of the salt value (or None for failure).
     '''
     try:
         return hex_salt.decode('hex-codec')
@@ -52,8 +50,7 @@ def hash_nsec3_name(name, salt, algo, addl_iters, salt_is_binary=True):
     :param int algo: The hashing algorithm to use.
     :param int addl_iters: The additional iterations to be applied.
     :param bool salt_is_binary: Set True if the salt is binary; False if hex-encoded.
-    :return: The (lowercase) base32hex-encoded result.
-    :rtype: str, or None on failure
+    :return: The (lowercase) base32hex-encoded string result (or None for failure).
     '''
 
     # Check name:

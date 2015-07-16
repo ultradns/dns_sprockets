@@ -1,6 +1,11 @@
 Change List
 -----------
 
+* 2015-07-15 (Version 1.0.4)
+
+    - Convert rest of funciton/method docstrings to sphinx-style.
+    - Fix test_rrsig_orphan unit test.
+
 * 2015-07-09 (Version 1.0.3)
 
     - Add some more "Sample Usage" in README.rst.

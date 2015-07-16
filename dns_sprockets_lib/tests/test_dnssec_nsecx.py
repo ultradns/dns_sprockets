@@ -85,7 +85,7 @@ def test__windows_covers():
         ([(0, '\x00\x08')], dns.rdatatype.PTR, True),
         ([(0, '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
               '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08')],
-              dns.rdatatype.AXFR, True)]
+            dns.rdatatype.AXFR, True)]
 
     for test in tests:
         assert nsecx._windows_covers(test[0], test[1]) == test[2]

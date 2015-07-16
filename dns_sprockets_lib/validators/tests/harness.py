@@ -1,5 +1,6 @@
 '''
 ValidatorTestHarness - Test harness for validators.
+---------------------------------------------------
 
 .. Copyright (c) 2015 Neustar, Inc. All rights reserved.
 .. See COPYRIGHT.txt for full notice.  See LICENSE.txt for terms and conditions.
@@ -16,12 +17,13 @@ def test_validator(test_name, zone_name, file_name,
                    extra_defines=None, dnssec_type='detect'):
     '''
     Tests a validator using SprocketImpl instance.
-    @param test_name The name of the test to run.
-    @param zone_name The name of the zone to load.
-    @param file_name The name of the file to load (w.r.t. dns_sprockets_lib/tests/data)
-    @param extra_defines List of extra defines, in command-line format.
-    @param dnssec_type Set to force dnssec_type.
-    @return (test_cnt, error_cnt)
+
+    :param str test_name: The name of the test to run.
+    :param str zone_name: The name of the zone to load.
+    :param str file_name: The name of the file to load (w.r.t. dns_sprockets_lib/tests/data)
+    :param list extra_defines: List of extra defines, in command-line format.
+    :param str dnssec_type: Set to force dnssec_type.
+    :return: A 2-tuple (test_cnt, error_cnt).
     '''
 
     class TestArgs(object):

@@ -1,5 +1,6 @@
 '''
 xfr - Zone loader: Xfr
+----------------------
 
 .. Copyright (c) 2015 Neustar, Inc. All rights reserved.
 .. See COPYRIGHT.txt for full notice.  See LICENSE.txt for terms and conditions.
@@ -54,6 +55,8 @@ class Xfr(loaders.ZoneLoader):
     def __init__(self, args):
         '''
         Ctor.
+
+        :param obj args: The application's command-line arguments object.
         '''
         self.rdtype = None
         self.rdclass = None
@@ -72,7 +75,7 @@ class Xfr(loaders.ZoneLoader):
 
     def run(self):
         '''
-        @return A dns.zone.Zone instance.
+        :return: A dns.zone.Zone instance.
         '''
         afs = {'AF_INET': dns.inet.AF_INET, 'AF_INET6': dns.inet.AF_INET6}
         (where, port) = ('#' in self.args.source

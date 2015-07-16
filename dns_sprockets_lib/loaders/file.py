@@ -1,5 +1,6 @@
 '''
 file - Zone loader: File
+------------------------
 
 .. Copyright (c) 2015 Neustar, Inc. All rights reserved.
 .. See COPYRIGHT.txt for full notice.  See LICENSE.txt for terms and conditions.
@@ -24,6 +25,8 @@ class File(loaders.ZoneLoader):
     def __init__(self, args):
         '''
         Ctor.
+
+        :param obj args: The application's command-line arguments object.
         '''
         self.rdclass = None
         self.allow_include = None
@@ -31,7 +34,7 @@ class File(loaders.ZoneLoader):
 
     def run(self):
         '''
-        @return A dns.zone.Zone instance.
+        :return: A dns.zone.Zone instance.
         '''
         other_args = {
             'origin': self.args.zone,

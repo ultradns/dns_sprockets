@@ -117,10 +117,9 @@ def filter_node(node, test_rrtype):
     test_rrtype is specified, a new, temporary node for use by the validator
     will be generated, which only has those rdatasets mentioned.
 
-    :param obj node: The node to inspect.
+    :param obj node: The dns.node.Node to inspect.
     :param str test_rrtype: The string description of RR type(s) that the test covers.
-    :return: The node for the validator to examine.
-    :rtype: obj
+    :return: The dns.node.Node for the validator to examine.
     '''
     if not test_rrtype:
         return node
@@ -302,7 +301,7 @@ class ZoneTest(_Validator):
 
         :param str suggested_tested: A suggested tested value.
         :param obj context: The testing context.
-        :return: A tuple (tested, result)
+        :return: A 2-tuple (tested, result)
         '''
         return ('OOPS!', 'ERROR: run() not overridden for %s' % (self.TEST_NAME))
 
@@ -325,7 +324,7 @@ class NodeTest(_Validator):
         :param str suggested_tested: A suggested tested value.
         :param str name: The name being tested.
         :param obj node: The dns.Node corresponding to the name.
-        :return: A tuple (tested, result)
+        :return: A 2-tuple (tested, result)
         '''
         return ('OOPS!', 'ERROR: run() not overridden for %s' % (self.TEST_NAME))
 
@@ -348,7 +347,7 @@ class RRSetTest(_Validator):
         :param str suggested_tested: A suggested tested value.
         :param str name: The name being tested.
         :param obj rdataset: The dns.rdataset corresponding to the name.
-        :return: A tuple (tested, result)
+        :return: A 2-tuple (tested, result)
         '''
         return ('OOPS!', 'ERROR: run() not overridden for %s' % (self.TEST_NAME))
 
@@ -373,7 +372,7 @@ class RecTest(_Validator):
         :param str name: The name of the record being tested.
         :param int ttl: The TTL of the record being tested.
         :param obj rdata: The dns.rdata.Rdata object being tested.
-        :return: A tuple (tested, result)
+        :return: A 2-tuple (tested, result)
         '''
         return ('OOPS!', 'ERROR: run() not overridden for %s' % (self.TEST_NAME))
 
