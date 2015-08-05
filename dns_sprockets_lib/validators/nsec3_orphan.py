@@ -27,8 +27,8 @@ class Nsec3Orphan(validators.RecTest):
         result = None
 
         # Only run test if there's an NSEC3PARAM:
-        nsec3param = (len(context.nsec3param_rdataset.items)
-            and context.nsec3param_rdataset.items[0] or None)
+        nsec3param = (len(context.nsec3param_rdataset.items) and
+                      context.nsec3param_rdataset.items[0] or None)
         if nsec3param:
             tested = suggested_tested
 
@@ -46,6 +46,7 @@ class Nsec3Orphan(validators.RecTest):
                     nsec3param.salt,
                     nsec3param.algorithm,
                     nsec3param.iterations)
+
                 if hashed_label == hashed_node_name:
 
                     # Get the types covered by those in the node:
@@ -56,20 +57,24 @@ class Nsec3Orphan(validators.RecTest):
                         if rdataset.rdtype != dns.rdatatype.NSEC3]
 
                     # Check for any node types not covered:
-                    not_covered = [t for t in node_types if t not in covered_types]
+                    not_covered = [t for t in node_types
+                                   if t not in covered_types]
                     if not_covered:
                         result = 'Doesn\'t cover types: %s' % (
-                            ' '.join([dns.rdatatype.to_text(t) for t in not_covered]))
+                            ' '.join([dns.rdatatype.to_text(t)
+                                      for t in not_covered]))
 
                     # Check for any extra covered types not needed:
-                    extra_covered = [t for t in covered_types if t not in node_types]
+                    extra_covered = [t for t in covered_types
+                                     if t not in node_types]
                     if extra_covered:
                         if not result:
                             result = ''
                         else:
                             result += ' and '
                         result += 'Covers non-existent RRSet types: %s' % (
-                            ' '.join([dns.rdatatype.to_text(t) for t in extra_covered]))
+                            ' '.join([dns.rdatatype.to_text(t)
+                                      for t in extra_covered]))
 
                     got_one = True
                     break

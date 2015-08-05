@@ -66,18 +66,48 @@ def test_dnssec_sort_names():
 def test_calc_node_names():
 
     tests = [
-        ([], []),
-        ([''], ['']),
-        (['a'], ['a']),
-        (['*.a'], ['a', '*.a']),
-        (['a', '*.a'], ['a', '*.a']),
-        (['b.a', '*.a'], ['a', '*.a', 'b.a']),
-        (['c.b.a', '*.a'], ['a', '*.a', 'b.a', 'c.b.a']),
-        (['d.c.b.a', '*.a'], ['a', '*.a', 'b.a', 'c.b.a', 'd.c.b.a'])]
+        ('', False, [], []),
+        ('', False, [''], ['']),
+        ('', False, ['a'], ['a']),
+        ('', False, ['d.c.b.a'], ['d.c.b.a']),
+        ('', False, ['*.a'], ['*.a']),
+        ('', False, ['a', '*.a'], ['a', '*.a']),
+        ('', False, ['b.a', '*.a'], ['*.a', 'b.a']),
+        ('', False, ['c.b.a', '*.a'], ['*.a', 'c.b.a']),
+        ('', False, ['d.c.b.a', '*.a'], ['*.a', 'd.c.b.a']),
+        ('', False, ['d.c.b.a', '*.*.a'], ['*.*.a', 'd.c.b.a']),
+        ('', False, ['d.c.b.a', '*.a', '*.*.a'], ['*.a', '*.*.a', 'd.c.b.a']),
+        ('a', True, [], []),
+        ('a', True, [''], ['']),
+        ('a', True, ['a'], ['a']),
+        ('a', True, ['d.c.b.a'], ['a', 'b.a', 'c.b.a', 'd.c.b.a']),
+        ('a', True, ['*.a'], ['a', '*.a']),
+        ('a', True, ['a', '*.a'], ['a', '*.a']),
+        ('a', True, ['b.a', '*.a'], ['a', '*.a', 'b.a']),
+        ('a', True, ['c.b.a', '*.a'], ['a', '*.a', 'b.a', 'c.b.a']),
+        ('a', True, ['d.c.b.a', '*.a'],
+                    ['a', '*.a', 'b.a', 'c.b.a', 'd.c.b.a']),
+        ('a', True, ['d.c.b.a', '*.*.a'],
+                    ['a', '*.a', '*.*.a', 'b.a', 'c.b.a', 'd.c.b.a']),
+        ('a', True, ['d.c.b.a', '*.a', '*.*.a'],
+                    ['a', '*.a', '*.*.a', 'b.a', 'c.b.a', 'd.c.b.a']),
+        ('example', True,
+            ['example', 'a.example', 'ns1.a.example', 'ns2.a.example',
+             'ai.example', 'c.example', 'ns1.c.example', 'ns2.c.example',
+             'ns1.example', 'ns2.example', '*.w.example', 'x.w.example',
+             'x.y.w.example', 'xx.example'],
+            ['example', 'a.example', 'ns1.a.example', 'ns2.a.example',
+             'ai.example', 'c.example', 'ns1.c.example', 'ns2.c.example',
+             'ns1.example', 'ns2.example', 'w.example', '*.w.example',
+             'x.w.example', 'y.w.example', 'x.y.w.example', 'xx.example'])]
 
     for test in tests:
-        ins = [dns.name.from_text(s) for s in test[0]]
-        outs = [dns.name.from_text(s) for s in test[1]]
-        assert dns_utils.calc_node_names(ins) == outs
+        ents_too = test[1]
+        zname = ents_too and dns.name.from_text(test[0]) or None
+        ins = [dns.name.from_text(s) for s in test[2]]
+        outs = [dns.name.from_text(s) for s in test[3]]
+        actual = dns_utils.calc_node_names(ins, ents_too, zname)
+        #print zname, ents_too, ins, outs, actual
+        assert actual == outs
 
 # end of file

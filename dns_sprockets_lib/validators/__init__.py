@@ -198,10 +198,6 @@ class Context(object):
         self.zone_name = dns.name.from_text(args.zone)
         self.zone_obj = zone_obj
 
-        # Get DNSSEC-ordered list of names in zone, including any Empty Non-
-        # Terminals implied by wildcard names:
-        self.node_names = dns_utils.calc_node_names(zone_obj.nodes.keys())
-
         # Get SOA if available:
         self.soa_rdataset = self.zone_obj.get_rdataset(
             self.zone_name, dns.rdatatype.SOA)
@@ -228,9 +224,10 @@ class Context(object):
             has_nsec3 = (self.nsec3param_rdataset or
                 next(self.zone_obj.iterate_rdatasets(dns.rdatatype.NSEC3), None))
 
-            # See if this appears to be a signed zone (note: can't seem to practically
-            # check all RRSIG's since they "cover" other records, which would require
-            # us to iterate all possible "covers" values, so just try a few obvious ones):
+            # See if this appears to be a signed zone (note: can't seem to
+            # practically check all RRSIG's since they "cover" other records,
+            # which would require us to iterate all possible "covers" values,
+            # so just try a few obvious ones):
             seems_signed = (
                 self.dnskey_rdataset or
                 has_nsec or
@@ -251,6 +248,12 @@ class Context(object):
                 has_nsec and 'NSEC' or
                 seems_signed and 'NSEC3' or  # assume NSEC3-type
                 'unsigned')
+
+        # Get DNSSEC-ordered list of names in zone (including any Empty Non-
+        # Terminals if NSEC3-style zone):
+        self.node_names = dns_utils.calc_node_names(
+            zone_obj.nodes.keys(),
+            self.dnssec_type == 'NSEC3', self.zone_name)
 
     def is_delegated(self, name):
         '''

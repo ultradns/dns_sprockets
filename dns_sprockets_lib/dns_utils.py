@@ -80,61 +80,36 @@ def dnssec_sort_names(names, reverse=False):
     return sorted(names, key=dns_name_cmp_to_key(), reverse=reverse)
 
 
-def calc_node_names(node_names):
+def calc_node_names(node_names, ents_too, zone_name):
     '''
-    Calculates list of node names in a zone, including any Empty Non-Terminals
-    implied by wildcard records, ordered in DNSSEC name order.
+    Calculates list of node names in a zone (including any Empty Non-Terminals
+    if 'ents_too' is True), ordered in DNSSEC name order.
 
-    :param list node_names: The list of names from Zone.nodes.keys().
+    :param list node_names: The list of name objects from Zone.nodes.keys().
+    :param bool ents_too: Set True to generate ENT names too.
+    :param obj zone_name: Name of zone (used when 'ents_too' is True).
     :return: Sorted list of all node names.
     '''
 
-    # Split explicit node names into wildcard and non-wildcard lists:
-    names = []
-    wc_names = []
-    for name in node_names:
-        if name.labels[0] == '*':
-            wc_names.append(name)
-        else:
-            names.append(name)
+    # Generate set of names (for lookups):
+    names = frozenset(node_names)
 
-    # Get list of wildcard base names:
-    base_wc_names = [dns.name.Name(list(n.labels[1:])) for n in wc_names]
+    # If we want ENT's too, spin through names (in DNSSEC-order) and add them:
+    ent_names = set()
+    if ents_too:
+        for name in dnssec_sort_names(node_names):
 
-    # Add wildcard base names to names if not already accounted for:
-    for base_wc_name in base_wc_names:
-        if base_wc_name not in names:
-            names.append(base_wc_name)
+            # Chop-off most specific label and see if it is accounted for:
+            pot_ent_name = dns.name.Name(name.labels[1:])
+            while pot_ent_name.is_subdomain(zone_name):
 
-    # Sort wildcard base names most-specific to least:
-    base_wc_names.sort(key=lambda n: len(n.labels), reverse=True)
+                if pot_ent_name not in names:
+                    ent_names.add(pot_ent_name)
 
-    # For each non-wildcard name, look for any Empty Non-Terminals:
-    ent_names = []
-    for name in names:
-
-        # Compare against all wildcard base names:
-        for base_wc_name in base_wc_names:
-
-            # If the name is a (non-equal) subdomain of the base wild card name,
-            # then there are potential ENT's present:
-            if name != base_wc_name and name.is_subdomain(base_wc_name):
-
-                # First potential ENT is parent of name:
-                pot_ent_name = dns.name.Name(list(name.labels[1:]))
-
-                # While potential ENT is not equal to the base wildcard name:
-                while pot_ent_name != base_wc_name:
-
-                    # Add potential name if not already accounted for:
-                    if pot_ent_name not in names + ent_names:
-                        ent_names.append(pot_ent_name)
-
-                    # Proceed to it's parent:
-                    # pylint: disable=no-member
-                    pot_ent_name = dns.name.Name(list(pot_ent_name.labels[1:]))
+                # Chop off next most specific lable and continue:
+                pot_ent_name = dns.name.Name(pot_ent_name.labels[1:])
 
     # Gather all names and sort in DNSEC name order:
-    return dnssec_sort_names(names + wc_names + ent_names)
+    return dnssec_sort_names(names | ent_names)
 
 # end of file

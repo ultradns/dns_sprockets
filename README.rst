@@ -210,6 +210,15 @@ The application returns a numerical value back to the user:
 - **1-254** The number of failed validations, up to a limit of 254.
 - **255** A special code for fatal exceptions.
 
+TO-DO's
+'''''''
+
+The following is a non-exhaustive list of things to do (help anyone?):
+
+- Respect the "opt-out" flag in NSEC3 records; right now, assuming none are opt-out.
+- More loaders and (especially) validators!
+- More real-world trials.
+
 Developer Information
 ---------------------
 
