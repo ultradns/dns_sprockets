@@ -1,6 +1,19 @@
 Change List
 -----------
 
+* 2015-08-04 (Version 1.1.1)
+
+    - Oops, forgot to update this change list for 1.1.0!  :p
+
+* 2015-08-04 (Version 1.1.0)
+
+    - Alter dns_sprockets_lib.dns_utils.calc_node_names to accept a bool flag
+      'ents_too' and a dns.name.Name 'zone_name' to properly calculate empty
+      non terminals (when ents_too is True, which is when the zone under
+      scrutiny is an NSEC3-style zone; otherwise ENT's are not needed).  The
+      updated calc_node_names should properly account for all ENT's, not just
+      those implied by wildcards.
+
 * 2015-07-15 (Version 1.0.4)
 
     - Convert rest of funciton/method docstrings to sphinx-style.
