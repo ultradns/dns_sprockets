@@ -54,5 +54,12 @@ def test_nsec_chain():
     assert tests == 1
     assert errs == 1
 
+    (tests, errs) = harness.test_validator(
+        test_name='nsec3_chain',
+        zone_name='signerendtoendtest.com',
+        file_name='signerendtoendtest.com.')
+    assert tests == 1
+    assert errs == 0
+
 # end of file
 

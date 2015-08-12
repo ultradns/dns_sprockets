@@ -1,6 +1,11 @@
 Change List
 -----------
 
+* 2015-08-11 (Version 1.1.2)
+
+    - Fix nsec3_chain and nsec_chain to not complain "Chain not ordered 
+      correctly" when the zone has a single NSEC(3).
+
 * 2015-08-04 (Version 1.1.1)
 
     - Oops, forgot to update this change list for 1.1.0!  :p

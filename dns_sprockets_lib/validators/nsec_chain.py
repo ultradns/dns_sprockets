@@ -63,7 +63,7 @@ class NsecChain(validators.ZoneTest):
         if not result and name != first_name:
             result = 'Chain walk didn\'t end up on start item'
 
-        if not result and next_less_than_name_cnt != 1:
+        if not result and len(nsec_dict) > 1 and next_less_than_name_cnt != 1:
             result = 'Chain not ordered correctly'
 
         return (suggested_tested, result)
