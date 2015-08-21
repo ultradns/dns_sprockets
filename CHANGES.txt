@@ -1,6 +1,11 @@
 Change List
 -----------
 
+* 2015-08-21 (Version 1.1.3)
+
+    - Optimize the nsec3_orphan validator by computing once and caching the
+      NSEC3-hashed names of all node names in the zone.
+
 * 2015-08-11 (Version 1.1.2)
 
     - Fix nsec3_chain and nsec_chain to not complain "Chain not ordered 
