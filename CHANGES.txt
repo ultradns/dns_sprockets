@@ -1,6 +1,10 @@
 Change List
 -----------
 
+* 2015-08-24 (Version 1.1.4)
+
+    - Add output of test times/runs when --verbose flag is specified.
+
 * 2015-08-21 (Version 1.1.3)
 
     - Optimize the nsec3_orphan validator by computing once and caching the

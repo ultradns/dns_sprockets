@@ -6,6 +6,7 @@ __init__.py - Validators library for dns_sprockets zone validator.
 .. See COPYRIGHT.txt for full notice.  See LICENSE.txt for terms and conditions.
 '''
 
+import time
 
 import dns.rdatatype
 import dns.name
@@ -288,6 +289,25 @@ class _Validator(object):
         self.args = args
 
         utils.process_optargs(self.TEST_OPTARGS, self.TEST_NAME, self)
+
+        # For accumulating run times:
+        self.total_time = 0
+        self.start_time = 0
+        
+        # For accumulating number of runs:
+        self.total_runs = 0
+
+    def start_timer(self):
+        '''
+        Starts the validator timer.
+        '''
+        self.start_time = time.time()
+
+    def stop_timer(self):
+        '''
+        Stops the validator timer and adds to accumulator.
+        '''
+        self.total_time += time.time() - self.start_time
 
 
 class ZoneTest(_Validator):

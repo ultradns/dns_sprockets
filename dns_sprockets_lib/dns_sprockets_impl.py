@@ -119,6 +119,15 @@ class DNSSprocketsImpl(object):
                                     name=name, ttl=rdataset.ttl, rdata=rdata)
 
         print '# END RESULT: %d ERRORS in %d tests' % (counts['errors'], counts['tests'])
+        if self.args.verbose:
+            print '#  TEST TIMES:'
+            for key in tests.keys():
+                for test in tests[key]:
+                    print '#  %f secs for %s (%d runs for %f secs each)' % (
+                        test.total_time, 
+                        test.TEST_NAME, 
+                        test.total_runs,
+                        test.total_time / test.total_runs)
         return (load_time, counts['tests'], counts['errors'])
 
     @staticmethod
@@ -133,8 +142,11 @@ class DNSSprocketsImpl(object):
         :param dict kwargs: Other parameters specific to the TEST_TYPE being run.
         '''
         suggested_tested = validators.make_suggested_tested(test, context, **kwargs)
+        test.start_timer()
         (tested, result) = test.run(context, suggested_tested, **kwargs)
+        test.stop_timer()
         if tested is not None:
+            test.total_runs += 1
             counts['tests'] += 1
             good = not result
             if not good:
