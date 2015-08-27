@@ -1,6 +1,10 @@
 Change List
 -----------
 
+* 2015-08-27 (Version 1.1.5)
+
+    - Add a few sys.stdout.flush()'s to assure full output w/shell redirections.
+
 * 2015-08-24 (Version 1.1.4)
 
     - Add output of test times/runs when --verbose flag is specified.
