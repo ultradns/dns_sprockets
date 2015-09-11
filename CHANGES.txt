@@ -1,6 +1,12 @@
 Change List
 -----------
 
+* 2015-09-10 (Version 1.1.6)
+
+    - Add output of hashed-node-names to node-names "dictionary" to the 
+      nsec3_orphan validator, when --verbose flag is specified.  This output
+      can be useful when troubleshooting issues.
+
 * 2015-08-27 (Version 1.1.5)
 
     - Add a few sys.stdout.flush()'s to assure full output w/shell redirections.

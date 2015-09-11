@@ -42,13 +42,17 @@ class Nsec3Orphan(validators.RecTest):
             # Check and build hashed node names cache if necessary:
             if self.hashed_node_names is None:
                 self.hashed_node_names = {}
+                if self.args.verbose:
+                    print '#  DICTIONARY OF HASHED NODE NAMES TO NODE NAMES:'
                 for node_name in context.node_names:
-                    self.hashed_node_names[
-                        nsecx.hash_nsec3_name(
-                            node_name,
-                            nsec3param.salt,
-                            nsec3param.algorithm,
-                            nsec3param.iterations)] = node_name
+                    hashed_node_name = nsecx.hash_nsec3_name(
+                        node_name,
+                        nsec3param.salt,
+                        nsec3param.algorithm,
+                        nsec3param.iterations)
+                    self.hashed_node_names[hashed_node_name] = node_name
+                    if self.args.verbose:
+                        print '#  %s -> %s' % (hashed_node_name.upper(), node_name)
 
             # Get the NSEC3's lowercased hashed label from owner name:
             hashed_label = name.labels[0].lower()
