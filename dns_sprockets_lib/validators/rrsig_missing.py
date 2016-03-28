@@ -6,6 +6,8 @@ rrsig_missing - RRSet test: RrsigMissing
 '''
 
 
+import time
+
 import dns.rdatatype
 import dns.rdtypes.ANY.RRSIG
 import dns.dnssec
@@ -20,7 +22,8 @@ class RrsigMissing(validators.RRSetTest):
     '''
     TEST_DNSSECTYPE = True
     TEST_OPTARGS = {
-        'now': (None, 'Time to use for validating RRSIG time windows, e.g. 20150101123000')}
+        'now': (None, 'Time to use for validating RRSIG time windows, e.g. 20150101123000'),
+        'now_offset': (None, 'Number of seconds to offset the "now" value, e.g. -86400)')}
 
     def __init__(self, args):
         '''
@@ -30,7 +33,9 @@ class RrsigMissing(validators.RRSetTest):
 
         self.posix_now = (self.now
             and dns.rdtypes.ANY.RRSIG.sigtime_to_posixtime(self.now)
-            or None)
+            or int(time.time()))
+        if self.now_offset:
+            self.posix_now += int(self.now_offset)
 
     def run(self, context, suggested_tested, name, rdataset):
 

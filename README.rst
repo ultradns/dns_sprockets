@@ -63,10 +63,10 @@ usage message::
 
     $ dns_sprockets --help
 
-    # dns_sprockets (1.0.0) - A DNS zone validation tool
-    usage: dns_sprockets [-h] [-z s] [-l s] [-s s] [-i s] [-x s] [-d s] [-f s]
-                         [-e] [-v]
-    
+    # dns_sprockets (1.1.7) - A DNS Zone validation tool
+    usage: dns_sprockets.py [-h] [-z s] [-l s] [-s s] [-i s] [-x s] [-d s] [-f s]
+                            [-e] [-v]
+
     optional arguments:
       -h, --help            show this help message and exit
       -z s, --zone s        Name of zone to validate [www.ultradns.com]
@@ -80,17 +80,17 @@ usage message::
                             NSEC3) [detect]
       -e, --errors-only     Show validation errors only [False]
       -v, --verbose         Show detailed processing info [False]
-    
+
     Use @filename to read some/all arguments from a file.
-    
+
     Use -d's to define optional, module-specific parameters if desired (e.g. to tell
     'xfr' loader to use a specific source address, use "-d xfr_source=1.2.3.4").
     The optional parameters are listed under each loader and test description in
     DEFINE lines, if available.
-    
+
     By default, all tests are run.  Use -i's to explicitly specify desired tests,
     or -x's to eliminate undesired tests.
-    
+
     The list of available loaders is:
     ---------------------------------------------------------------------------
     LOADER: file - Loads a zone from a file in AXFR-type or Bind host-type format.
@@ -109,7 +109,7 @@ usage message::
         DEFINE: xfr_source_port - Source port for the transfer (default=0)
         DEFINE: xfr_timeout - Seconds to wait for each response message (default=5.0)
         DEFINE: xfr_use_udp - Use UDP for IXFRing (default=0)
-    
+
     The list of available tests is:
     ---------------------------------------------------------------------------
     TEST: dnskey_bits (REC_TEST[DNSKEY]) - Checks DNSKEY flags and protocol.
@@ -127,8 +127,10 @@ usage message::
     TEST: rrsig_covers (REC_TEST[RRSIG]) - Checks RRSIG's don't cover RRSIG's.
     TEST: rrsig_missing (RRSET_TEST) - Checks that all (non-RRSIG, non-delegated) RRSets are covered with an RRSIG.
         DEFINE: rrsig_missing_now - Time to use for validating RRSIG time windows, e.g. 20150101123000 (default=None)
+        DEFINE: rrsig_missing_now_offset - Number of seconds to offset the "now" value, e.g. -86400) (default=None)
     TEST: rrsig_orphan (REC_TEST[RRSIG]) - Checks for orphan RRSIGs.
         DEFINE: rrsig_orphan_now - Time to use for validating RRSIG time windows, e.g. 20150101123000 (default=None)
+        DEFINE: rrsig_orphan_now_offset - Number of seconds to offset the "now" value, e.g. -86400) (default=None)
     TEST: rrsig_signer_match (REC_TEST[RRSIG]) - Checks RRSIG signers match the zone.
     TEST: rrsig_time (REC_TEST[RRSIG]) - Checks RRSIG's inception <= expiration.
     TEST: rrsig_ttls_match (REC_TEST[RRSIG]) - Checks RRSIG TTL's match original and covered TTL's.

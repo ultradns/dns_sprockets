@@ -1,6 +1,11 @@
 Change List
 -----------
 
+* 2016-03-28 (Version 1.1.7)
+
+    - Add "now_offset" option to the rrsig_missing and rrsig_orphan validators,
+      to optionally offset the time "now" for validating RRSIG signatures.
+
 * 2015-09-10 (Version 1.1.6)
 
     - Add output of hashed-node-names to node-names "dictionary" to the 
