@@ -26,9 +26,9 @@ class RrsigOrphan(validators.RecTest):
         'now_offset': (None, 'Number of seconds to offset the "now" value, e.g. -86400)')}
 
     def __init__(self, args):
-        '''
-        '''
+
         self.now = None
+        self.now_offset = None
         super(RrsigOrphan, self).__init__(args)
 
         self.posix_now = (self.now

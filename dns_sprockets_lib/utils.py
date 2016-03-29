@@ -50,17 +50,28 @@ def public_modules_in_package(pkg, excludes=None):
 def process_optargs(optargs, receiver_name, receiver):
     '''
     Adds plugin-specific optional arguments as attributes to a receiver instance.
-    Arguments are pulled from the receiver's 'args' attribute as fully-named
-    (e.g. rrsig_missing_now) and stored in the receiver in "short form" (e.g.
-    "now").  If not present in 'args', the optarg's default value is used.
+    Arguments are pulled from the receiver's 'args' attribute and stored in the 
+    receiver in "short form" (e.g. "now").  If the "long form" (e.g.
+    "rrsig_missing_now") is present in args, it will be used, else if the "short
+    form" (e.g. "now") is present in args, it will be used, else the optarg's
+    default value will be used.
 
     :param dict optargs: The optargs descriptor (e.g. {'now': (None, 'Time to use for now')}
     :param str receiver_name: The full name prefix (e.g. "rrsig_missing").
     :param obj receiver: The instance that has .args and receives short-named attributes.
     '''
-    for (oname, (opt_default, _)) in optargs.iteritems():
-        opt_name = '%s_%s' % (receiver_name, oname)
-        setattr(receiver, oname, hasattr(receiver.args, opt_name) and
-                    getattr(receiver.args, opt_name) or opt_default)
+    for (short_name, (opt_default, _)) in optargs.iteritems():
+
+        full_name = '%s_%s' % (receiver_name, short_name)
+
+        if hasattr(receiver.args, full_name):
+            setattr(receiver, short_name, getattr(receiver.args, full_name))
+        elif hasattr(receiver.args, short_name):
+            setattr(receiver, short_name, getattr(receiver.args, short_name))
+        else:
+            setattr(receiver, short_name, opt_default)
+
+        if hasattr(receiver.args, 'verbose') and receiver.args.verbose:
+            print '# Using %s: %s' % (full_name, getattr(receiver, short_name))
 
 # end of file

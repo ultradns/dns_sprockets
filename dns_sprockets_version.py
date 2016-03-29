@@ -6,6 +6,6 @@ dns_sprockets_version - Contains version for dns_sprockets.
 .. See COPYRIGHT.txt for full notice.  See LICENSE.txt for terms and conditions.
 '''
 
-VERSION = '1.1.7'
+VERSION = '1.1.8'
 
 # end of file

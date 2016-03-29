@@ -40,8 +40,8 @@ def test_get_formatted_descriptions():
 
     desc = loader_classes.get_formatted_descriptions()
     assert 'file' in desc
-    assert 'file_allow_include' in desc
+    assert '(file_)allow_include' in desc
     assert 'xfr' in desc
-    assert 'xfr_timeout' in desc
+    assert '(xfr_)timeout' in desc
 
 # end of file

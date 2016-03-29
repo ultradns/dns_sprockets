@@ -26,9 +26,9 @@ class RrsigMissing(validators.RRSetTest):
         'now_offset': (None, 'Number of seconds to offset the "now" value, e.g. -86400)')}
 
     def __init__(self, args):
-        '''
-        '''
+
         self.now = None
+        self.now_offset = None
         super(RrsigMissing, self).__init__(args)
 
         self.posix_now = (self.now

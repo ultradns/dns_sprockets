@@ -39,6 +39,7 @@ def test_validator(test_name, zone_name, file_name,
         force_dnssec_type = dnssec_type
         errors_only = False
         defines = extra_defines
+        verbose = False
 
     avail_loaders = utils.public_modules_in_package(loaders, ['tests'])
     avail_tests = utils.public_modules_in_package(validators, ['tests'])

@@ -70,13 +70,17 @@ def run():
 Use @filename to read some/all arguments from a file.\n\n
 Use -d's to define optional, module-specific parameters if desired (e.g. to tell
 'xfr' loader to use a specific source address, use "-d xfr_source=1.2.3.4").
-The optional parameters are listed under each loader and test description in
-DEFINE lines, if available.\n\n
+The optional parameters are listed under each loader and validator description
+in DEFINE lines, if available.  The "short form" of parameter names (i.e. 
+without the module name prefix) may be used instead, if multiple modules define
+the same "short form" name (e.g. -d now=20160328120000 can be used, and will set
+both 'rrsig_missing' and 'rrsig_orphan' validators' rrsig_missing_now and 
+rrsig_orphan_now values, respectively).\n\n
 By default, all tests are run.  Use -i\'s to explicitly specify desired tests,
 or -x\'s to eliminate undesired tests.\n\n
 The list of available loaders is:
 ---------------------------------------------------------------------------\n%s\n\n
-The list of available tests is:
+The list of available validators is:
 ---------------------------------------------------------------------------\n%s
             ''' % (loader_classes.get_formatted_descriptions(),
                    validator_classes.get_formatted_descriptions()),
@@ -93,10 +97,10 @@ The list of available tests is:
         help='Loader source to use [%(default)s]')
     parser.add_argument('-i', '--include', dest='include_tests',
         action='append', metavar='s', choices=avail_tests,
-        help='Only include this test (can use multiple times)')
+        help='Only include this validator (can use multiple times)')
     parser.add_argument('-x', '--exclude', dest='exclude_tests',
         action='append', metavar='s', choices=avail_tests,
-        help='Exclude this test (can use multiple times)')
+        help='Exclude this validator (can use multiple times)')
     parser.add_argument('-d', '--define', dest='defines',
         action='append', metavar='s',
         help='Define other params (can use multiple times)')

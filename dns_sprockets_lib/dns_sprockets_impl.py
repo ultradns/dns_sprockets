@@ -119,7 +119,7 @@ class DNSSprocketsImpl(object):
                                     name=name, ttl=rdataset.ttl, rdata=rdata)
 
         print '# END RESULT: %d ERRORS in %d tests' % (counts['errors'], counts['tests'])
-        if self.args.verbose:
+        if hasattr(self.args, 'verbose') and self.args.verbose:
             print '#  TEST TIMES:'
             for key in tests.keys():
                 for test in tests[key]:

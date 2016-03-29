@@ -63,7 +63,7 @@ usage message::
 
     $ dns_sprockets --help
 
-    # dns_sprockets (1.1.7) - A DNS Zone validation tool
+    # dns_sprockets (1.1.8) - A DNS Zone validation tool
     usage: dns_sprockets.py [-h] [-z s] [-l s] [-s s] [-i s] [-x s] [-d s] [-f s]
                             [-e] [-v]
 
@@ -72,8 +72,8 @@ usage message::
       -z s, --zone s        Name of zone to validate [www.ultradns.com]
       -l s, --loader s      Zone loader method to use (one of: file, xfr) [xfr]
       -s s, --source s      Loader source to use [127.0.0.1#53]
-      -i s, --include s     Only include this test (can use multiple times)
-      -x s, --exclude s     Exclude this test (can use multiple times)
+      -i s, --include s     Only include this validator (can use multiple times)
+      -x s, --exclude s     Exclude this validator (can use multiple times)
       -d s, --define s      Define other params (can use multiple times)
       -f s, --force-dnssec-type s
                             Use DNSSEC type (one of: detect, unsigned, NSEC,
@@ -85,8 +85,12 @@ usage message::
 
     Use -d's to define optional, module-specific parameters if desired (e.g. to tell
     'xfr' loader to use a specific source address, use "-d xfr_source=1.2.3.4").
-    The optional parameters are listed under each loader and test description in
-    DEFINE lines, if available.
+    The optional parameters are listed under each loader and validator description
+    in DEFINE lines, if available.  The "short form" of parameter names (i.e.
+    without the module name prefix) may be used instead, if multiple modules define
+    the same "short form" name (e.g. -d now=20160328120000 can be used, and will set
+    both 'rrsig_missing' and 'rrsig_orphan' validators' rrsig_missing_now and
+    rrsig_orphan_now values, respectively).
 
     By default, all tests are run.  Use -i's to explicitly specify desired tests,
     or -x's to eliminate undesired tests.
@@ -94,23 +98,23 @@ usage message::
     The list of available loaders is:
     ---------------------------------------------------------------------------
     LOADER: file - Loads a zone from a file in AXFR-type or Bind host-type format.
-        DEFINE: file_allow_include - Allow file to include other files (default=1)
-        DEFINE: file_rdclass - Class of records to pull (default=IN)
+        DEFINE: (file_)allow_include - Allow file to include other files (default=1)
+        DEFINE: (file_)rdclass - Class of records to pull (default=IN)
     LOADER: xfr - Loads a zone by XFR from a name server.
-        DEFINE: xfr_af - The address family to use, AF_INET or AF_INET6 (default=None)
-        DEFINE: xfr_keyalgorithm - The TSIG algorithm to use, one of: HMAC-MD5.SIG-ALG.REG.INT. hmac-sha1. hmac-sha224. hmac-sha256. hmac-sha384. hmac-sha512. (default=HMAC-MD5.SIG-ALG.REG.INT.)
-        DEFINE: xfr_keyname - The name of the TSIG to use (default=None)
-        DEFINE: xfr_keyring - The TSIG keyring to use, a text dict of name->base64_secret e.g. "{'n1':'H477A900','n2':'K845CL21'}" (default=None)
-        DEFINE: xfr_lifetime - Total seconds to wait for complete transfer (default=None)
-        DEFINE: xfr_rdclass - Class of records to pull (default=IN)
-        DEFINE: xfr_rdtype - Type of XFR to perform, AXFR or IXFR (default=AXFR)
-        DEFINE: xfr_serial - SOA serial number to use as base for IXFR diff (default=0)
-        DEFINE: xfr_source - Source address for the transfer (default=None)
-        DEFINE: xfr_source_port - Source port for the transfer (default=0)
-        DEFINE: xfr_timeout - Seconds to wait for each response message (default=5.0)
-        DEFINE: xfr_use_udp - Use UDP for IXFRing (default=0)
+        DEFINE: (xfr_)af - The address family to use, AF_INET or AF_INET6 (default=None)
+        DEFINE: (xfr_)keyalgorithm - The TSIG algorithm to use, one of: HMAC-MD5.SIG-ALG.REG.INT. hmac-sha1. hmac-sha224. hmac-sha256. hmac-sha384. hmac-sha512. (default=HMAC-MD5.SIG-ALG.REG.INT.)
+        DEFINE: (xfr_)keyname - The name of the TSIG to use (default=None)
+        DEFINE: (xfr_)keyring - The TSIG keyring to use, a text dict of name->base64_secret e.g. "{'n1':'H477A900','n2':'K845CL21'}" (default=None)
+        DEFINE: (xfr_)lifetime - Total seconds to wait for complete transfer (default=None)
+        DEFINE: (xfr_)rdclass - Class of records to pull (default=IN)
+        DEFINE: (xfr_)rdtype - Type of XFR to perform, AXFR or IXFR (default=AXFR)
+        DEFINE: (xfr_)serial - SOA serial number to use as base for IXFR diff (default=0)
+        DEFINE: (xfr_)source - Source address for the transfer (default=None)
+        DEFINE: (xfr_)source_port - Source port for the transfer (default=0)
+        DEFINE: (xfr_)timeout - Seconds to wait for each response message (default=5.0)
+        DEFINE: (xfr_)use_udp - Use UDP for IXFRing (default=0)
 
-    The list of available tests is:
+    The list of available validators is:
     ---------------------------------------------------------------------------
     TEST: dnskey_bits (REC_TEST[DNSKEY]) - Checks DNSKEY flags and protocol.
     TEST: dnskey_origin (ZONE_TEST) - Checks for a ZSK at zone origin.
@@ -126,11 +130,11 @@ usage message::
     TEST: nsecx_ttls_match (REC_TEST[NSEC,NSEC3]) - Checks that NSECx TTL's match SOA's minimum.
     TEST: rrsig_covers (REC_TEST[RRSIG]) - Checks RRSIG's don't cover RRSIG's.
     TEST: rrsig_missing (RRSET_TEST) - Checks that all (non-RRSIG, non-delegated) RRSets are covered with an RRSIG.
-        DEFINE: rrsig_missing_now - Time to use for validating RRSIG time windows, e.g. 20150101123000 (default=None)
-        DEFINE: rrsig_missing_now_offset - Number of seconds to offset the "now" value, e.g. -86400) (default=None)
+        DEFINE: (rrsig_missing_)now - Time to use for validating RRSIG time windows, e.g. 20150101123000 (default=None)
+        DEFINE: (rrsig_missing_)now_offset - Number of seconds to offset the "now" value, e.g. -86400) (default=None)
     TEST: rrsig_orphan (REC_TEST[RRSIG]) - Checks for orphan RRSIGs.
-        DEFINE: rrsig_orphan_now - Time to use for validating RRSIG time windows, e.g. 20150101123000 (default=None)
-        DEFINE: rrsig_orphan_now_offset - Number of seconds to offset the "now" value, e.g. -86400) (default=None)
+        DEFINE: (rrsig_orphan_)now - Time to use for validating RRSIG time windows, e.g. 20150101123000 (default=None)
+        DEFINE: (rrsig_orphan_)now_offset - Number of seconds to offset the "now" value, e.g. -86400) (default=None)
     TEST: rrsig_signer_match (REC_TEST[RRSIG]) - Checks RRSIG signers match the zone.
     TEST: rrsig_time (REC_TEST[RRSIG]) - Checks RRSIG's inception <= expiration.
     TEST: rrsig_ttls_match (REC_TEST[RRSIG]) - Checks RRSIG TTL's match original and covered TTL's.
@@ -166,6 +170,9 @@ state the "now" time to use for two of the validators.  Assuming a bash-like she
     
     $ echo $?
     0
+    
+*UPDATE*  New in version 1.1.8: Can now just specify "-d now=$TIME_NOW" as a
+shortcut for "-d rrsig_missing_now=$TIME_NOW -d rrsig_orphan_now=$TIME_NOW"
 
 OK, all tests passed, but that's not too interesting.  Let's repeat that, except
 with a slightly modified zone file: one of the NSEC3's (and its associated RRSIG

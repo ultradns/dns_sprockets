@@ -1,6 +1,25 @@
 Change List
 -----------
 
+* 2016-03-29 (Version 1.1.8)
+
+    - Add missing inits of 1.1.7's new "now_offset" option, in RrsigMissing and
+      RrsigOrphan __init__()'s.
+    - Allow specific loader and validator parameters to be specified in "short 
+      form" name as well as previous "long form" names.  For example, the
+      rrsig_missing and rrsig_orphan validators both have long form "now"
+      parameters, called "rrsig_missing_now" and "rrsig_orphan_now", 
+      respectively.  Instead of passing "--define rrsig_missing_now=20160328120000
+      --define rrsig_orphan_now=20160328120000" (i.e. the same now value), one 
+      can now simply the "short form" name: "--define now=20160328120000" and 
+      both validators will extract and use the same value.
+    - Alter --help output:
+      * Change occurrences of string "test" to "validator".
+      * Include description of use of short form module parameter names.
+      * Change DEFINE descriptions to indicate (long_)short forms: e.g.
+        (rrsig_missing_)now.
+    - Add --verbose output: Show all values used for specific module parameters.
+
 * 2016-03-28 (Version 1.1.7)
 
     - Add "now_offset" option to the rrsig_missing and rrsig_orphan validators,
