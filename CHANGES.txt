@@ -1,6 +1,10 @@
 Change List
 -----------
 
+* 2016-09-18 (Version 1.1.9)
+
+    - Added support for latest dnspython 1.14.0 changes (from 1.12.0)
+
 * 2016-03-29 (Version 1.1.8)
 
     - Add missing inits of 1.1.7's new "now_offset" option, in RrsigMissing and

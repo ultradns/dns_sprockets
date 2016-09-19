@@ -53,7 +53,7 @@ setup(
         'Topic :: Utilities'],
     keywords='DNS zone validation',
     install_requires=[
-        'dnspython>=1.12',
+        'dnspython>=1.14',
         'pycrypto>=2.6'],
     packages=find_packages(),
     py_modules=[

@@ -24,7 +24,7 @@ class DnskeyOrigin(validators.ZoneTest):
         zsk_count = 0
         dnskeys = context.dnskey_rdataset and context.dnskey_rdataset.items or []
         for rdata in dnskeys:
-            if rdata.flags & dns.rdtypes.ANY.DNSKEY.ZONE:
+            if rdata.flags & dns.rdtypes.dnskeybase.ZONE:
                 zsk_count += 1
         if zsk_count == 0:
             result = 'No ZSK found at origin'

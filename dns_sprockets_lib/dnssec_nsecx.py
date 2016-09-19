@@ -95,7 +95,7 @@ def _windows_covers(windows, rrtype):
             byte = offset // 8
             if bitmap and len(bitmap) >= byte + 1:
                 bit = offset % 8
-                return bool(ord(bitmap[byte]) & (0x80 >> bit))
+                return bool(bitmap[byte] & (0x80 >> bit))
 
     return False
 
@@ -124,7 +124,7 @@ def _windows_get_covered_types(windows):
         bitmap = win[1]
         if bitmap:
             for byte in range(len(bitmap)):
-                bits = ord(bitmap[byte])
+                bits = bitmap[byte]
                 if bits:
                     for bit in range(8):
                         if bits & (0x80 >> bit):

@@ -23,7 +23,7 @@ class DnskeyBits(validators.RecTest):
         # pylint: disable=too-many-arguments
 
         result = None
-        if (rdata.flags & dns.rdtypes.ANY.DNSKEY.ZONE) and name != context.zone_name:
+        if (rdata.flags & dns.rdtypes.dnskeybase.ZONE) and name != context.zone_name:
             result = 'Zone signing key not at zone apex'
         if rdata.protocol != 3:
             if result:

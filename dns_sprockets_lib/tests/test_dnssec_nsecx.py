@@ -73,18 +73,17 @@ def test_hash_nsec3_name():
 
 def test__windows_covers():
 
-    CAA = 257  # not in dnspython yet?
-
     tests = [
         ([(0, None)], dns.rdatatype.A, False),
-        ([(0, '\x00')], dns.rdatatype.A, False),
-        ([(0, '\x40')], dns.rdatatype.A, True),
-        ([(0, '\x40')], dns.rdatatype.NS, False),
-        ([(1, '\x40')], dns.rdatatype.A, False),
-        ([(1, '\x40')], CAA, True),
-        ([(0, '\x00\x08')], dns.rdatatype.PTR, True),
-        ([(0, '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-              '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08')],
+        ([(0, bytearray('\x00'))], dns.rdatatype.A, False),
+        ([(0, bytearray('\x40'))], dns.rdatatype.A, True),
+        ([(0, bytearray('\x40'))], dns.rdatatype.NS, False),
+        ([(1, bytearray('\x40'))], dns.rdatatype.A, False),
+        ([(1, bytearray('\x40'))], dns.rdatatype.CAA, True),
+        ([(0, bytearray('\x00\x08'))], dns.rdatatype.PTR, True),
+        ([(0, bytearray(
+            '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+            '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08'))],
             dns.rdatatype.AXFR, True)]
 
     for test in tests:
@@ -93,17 +92,19 @@ def test__windows_covers():
 
 def test__windows_get_covered_types():
 
-    CAA = 257  # not in dnspython yet?
-
     tests = [
         ([(0, None)], []),
-        ([(0, '\x00')], []),
-        ([(0, '\x40')], [dns.rdatatype.A]),
-        ([(0, '\x60')], [dns.rdatatype.A, dns.rdatatype.NS]),
-        ([(0, '\x64')], [dns.rdatatype.A, dns.rdatatype.NS, dns.rdatatype.CNAME]),
-        ([(1, '\x40')], [CAA]),
-        ([(0, '\x40'), (1, '\x40')], [dns.rdatatype.A, CAA]),
-        ([(0, '\x40\x08'), (1, '\x40')], [dns.rdatatype.A, CAA, dns.rdatatype.PTR])]
+        ([(0, bytearray('\x00'))], []),
+        ([(0, bytearray('\x40'))], [dns.rdatatype.A]),
+        ([(0, bytearray('\x60'))], [dns.rdatatype.A, dns.rdatatype.NS]),
+        ([(0, bytearray('\x64'))], [
+            dns.rdatatype.A, dns.rdatatype.NS, dns.rdatatype.CNAME]),
+        ([(1, bytearray('\x40'))], [dns.rdatatype.CAA]),
+        ([(0, bytearray('\x40')),
+          (1, bytearray('\x40'))], [dns.rdatatype.A, dns.rdatatype.CAA]),
+        ([(0, bytearray('\x40\x08')),
+          (1, bytearray('\x40'))], [
+            dns.rdatatype.A, dns.rdatatype.CAA, dns.rdatatype.PTR])]
 
     for test in tests:
         assert sorted(nsecx._windows_get_covered_types(test[0])) == sorted(test[1])
