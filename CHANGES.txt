@@ -1,6 +1,12 @@
 Change List
 -----------
 
+* 2020-04-02 (Version 2.0.0)
+
+    - Migrate to Python3.8 (dropped support for Python2.7)
+    - Updated dnspython dependency to 1.16.0
+    - Updated pycrypto dependency to pycryptodome 3.9.7
+
 * 2016-09-18 (Version 1.1.9)
 
     - Added support for latest dnspython 1.14.0 changes (from 1.12.0)

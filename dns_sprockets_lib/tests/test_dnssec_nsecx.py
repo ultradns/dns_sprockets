@@ -17,12 +17,13 @@ def test_encode_salt():
     tests = [
         (None, None),
         (1, None),
-        ('', ''),
-        ('1', '31'),
-        ('a', '61'),
-        ('Testing', '54657374696e67')]
+        (b'', ''),
+        (b'1', '31'),
+        (b'a', '61'),
+        (b'Testing', '54657374696e67')]
 
     for test in tests:
+        print(test)
         assert nsecx.encode_salt(test[0]) == test[1]
 
 
@@ -31,13 +32,14 @@ def test_decode_salt():
     tests = [
         (None, None),
         (1, None),
-        ('', ''),
+        ('', b''),
         ('1', None),
-        ('31', '1'),
-        ('54657374696e67', 'Testing'),
-        ('54657374696E67', 'Testing')]
+        ('31', b'1'),
+        ('54657374696e67', b'Testing'),
+        ('54657374696E67', b'Testing')]
 
     for test in tests:
+        print(test)
         assert nsecx.decode_salt(test[0]) == test[1]
 
 
@@ -68,6 +70,7 @@ def test_hash_nsec3_name():
             'kohar7mbb8dc2ce8a9qvl8hon4k53uhi')]
 
     for test in tests:
+        print(test)
         assert nsecx.hash_nsec3_name(test[0], test[1], test[2], test[3], False) == test[4]
 
 
@@ -75,18 +78,19 @@ def test__windows_covers():
 
     tests = [
         ([(0, None)], dns.rdatatype.A, False),
-        ([(0, bytearray('\x00'))], dns.rdatatype.A, False),
-        ([(0, bytearray('\x40'))], dns.rdatatype.A, True),
-        ([(0, bytearray('\x40'))], dns.rdatatype.NS, False),
-        ([(1, bytearray('\x40'))], dns.rdatatype.A, False),
-        ([(1, bytearray('\x40'))], dns.rdatatype.CAA, True),
-        ([(0, bytearray('\x00\x08'))], dns.rdatatype.PTR, True),
+        ([(0, bytearray(b'\x00'))], dns.rdatatype.A, False),
+        ([(0, bytearray(b'\x40'))], dns.rdatatype.A, True),
+        ([(0, bytearray(b'\x40'))], dns.rdatatype.NS, False),
+        ([(1, bytearray(b'\x40'))], dns.rdatatype.A, False),
+        ([(1, bytearray(b'\x40'))], dns.rdatatype.CAA, True),
+        ([(0, bytearray(b'\x00\x08'))], dns.rdatatype.PTR, True),
         ([(0, bytearray(
-            '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-            '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08'))],
+            b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+            b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x08'))],
             dns.rdatatype.AXFR, True)]
 
     for test in tests:
+        print(test)
         assert nsecx._windows_covers(test[0], test[1]) == test[2]
 
 
@@ -94,19 +98,20 @@ def test__windows_get_covered_types():
 
     tests = [
         ([(0, None)], []),
-        ([(0, bytearray('\x00'))], []),
-        ([(0, bytearray('\x40'))], [dns.rdatatype.A]),
-        ([(0, bytearray('\x60'))], [dns.rdatatype.A, dns.rdatatype.NS]),
-        ([(0, bytearray('\x64'))], [
+        ([(0, bytearray(b'\x00'))], []),
+        ([(0, bytearray(b'\x40'))], [dns.rdatatype.A]),
+        ([(0, bytearray(b'\x60'))], [dns.rdatatype.A, dns.rdatatype.NS]),
+        ([(0, bytearray(b'\x64'))], [
             dns.rdatatype.A, dns.rdatatype.NS, dns.rdatatype.CNAME]),
-        ([(1, bytearray('\x40'))], [dns.rdatatype.CAA]),
-        ([(0, bytearray('\x40')),
-          (1, bytearray('\x40'))], [dns.rdatatype.A, dns.rdatatype.CAA]),
-        ([(0, bytearray('\x40\x08')),
-          (1, bytearray('\x40'))], [
+        ([(1, bytearray(b'\x40'))], [dns.rdatatype.CAA]),
+        ([(0, bytearray(b'\x40')),
+          (1, bytearray(b'\x40'))], [dns.rdatatype.A, dns.rdatatype.CAA]),
+        ([(0, bytearray(b'\x40\x08')),
+          (1, bytearray(b'\x40'))], [
             dns.rdatatype.A, dns.rdatatype.CAA, dns.rdatatype.PTR])]
 
     for test in tests:
+        print(test)
         assert sorted(nsecx._windows_get_covered_types(test[0])) == sorted(test[1])
 
 # end of file

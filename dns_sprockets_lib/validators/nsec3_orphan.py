@@ -43,7 +43,7 @@ class Nsec3Orphan(validators.RecTest):
             if self.hashed_node_names is None:
                 self.hashed_node_names = {}
                 if self.args.verbose:
-                    print '#  DICTIONARY OF HASHED NODE NAMES TO NODE NAMES:'
+                    print('#  DICTIONARY OF HASHED NODE NAMES TO NODE NAMES:')
                 for node_name in context.node_names:
                     hashed_node_name = nsecx.hash_nsec3_name(
                         node_name,
@@ -52,10 +52,10 @@ class Nsec3Orphan(validators.RecTest):
                         nsec3param.iterations)
                     self.hashed_node_names[hashed_node_name] = node_name
                     if self.args.verbose:
-                        print '#  %s -> %s' % (hashed_node_name.upper(), node_name)
+                        print('#  %s -> %s' % (hashed_node_name.upper(), node_name))
 
             # Get the NSEC3's lowercased hashed label from owner name:
-            hashed_label = name.labels[0].lower()
+            hashed_label = name.labels[0].lower().decode()
 
             # Insure the NSEC3 covers a node name in the zone:
             if hashed_label in self.hashed_node_names:

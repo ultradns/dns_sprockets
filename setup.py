@@ -34,7 +34,7 @@ setup(
     description='Command-line DNS Zone validation tool',
     long_description=long_description,
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
         'Intended Audience :: Customer Service',
         'Intended Audience :: Developers',
@@ -44,7 +44,8 @@ setup(
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
         'Operating System :: OS Independent',
-        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3 :: Only',
+        'Programming Language :: Python :: 3.8',
         'Topic :: Internet :: Name Service (DNS)',
         'Topic :: Software Development :: Quality Assurance',
         'Topic :: Software Development :: Testing',
@@ -53,8 +54,8 @@ setup(
         'Topic :: Utilities'],
     keywords='DNS zone validation',
     install_requires=[
-        'dnspython>=1.14',
-        'pycrypto>=2.6'],
+        'dnspython>=1.16.0',
+        'pycryptodome>=3.9.7'],
     packages=find_packages(),
     py_modules=[
         'dns_sprockets_version',

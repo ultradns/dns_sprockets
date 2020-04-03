@@ -103,8 +103,8 @@ class Xfr(loaders.ZoneLoader):
         try:
             return dns.zone.from_xfr(msg_gen, relativize=False, check_origin=False)
         except dns.rdatatype.UnknownRdatatype:
-            print 'ERROR: Unable to XFR from %s - Permission to XFR from here?' % (
-                self.args.source)
+            print('ERROR: Unable to XFR from %s - Permission to XFR from here?' % (
+                self.args.source))
             return None
 
 # end of file

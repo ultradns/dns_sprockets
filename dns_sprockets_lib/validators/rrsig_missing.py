@@ -61,9 +61,9 @@ class RrsigMissing(validators.RRSetTest):
                         (name, rrsigset),
                         {context.zone_name: context.dnskey_rdataset},
                         now=self.posix_now)
-                except dns.dnssec.UnsupportedAlgorithm, err:
+                except dns.dnssec.UnsupportedAlgorithm as err:
                     result = str(err)
-                except dns.dnssec.ValidationFailure, err:
+                except dns.dnssec.ValidationFailure as err:
                     result = str(err)
 
         return (tested, result)

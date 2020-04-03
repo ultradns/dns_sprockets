@@ -24,7 +24,7 @@ import dns_sprockets_lib.dns_utils as dns_utils
  NODE_TEST,   # A test type that validates nodes in the zone.
  RRSET_TEST,  # A test type that validates RRSets in the zone.
  REC_TEST     # A test type that validates individual records in the zone.
-) = range(4)
+) = list(range(4))
 
 
 def test_type_to_str(test_type, test_rrtype=None):
@@ -74,7 +74,7 @@ def rec_to_abbrev_text(name, ttl, klass, rdata):
     else:
         rdata_txt = rdata.to_text(relativize=False)
 
-    klass_txt = (isinstance(klass, (str, unicode))
+    klass_txt = (isinstance(klass, str)
         and klass or dns.rdataclass.to_text(klass))
     return '%s %d %s %s %s' % (
         name, ttl, klass_txt, rdata.__class__.__name__, rdata_txt)
@@ -103,10 +103,10 @@ def dnssec_filter_tests_by_context(tests, context):
 
         if rem_test:
             remove_tests.append(rem_test)
-            print '# Skipping test: %s  (DNSSEC type for zone: %s, for test: %s)' % (
+            print('# Skipping test: %s  (DNSSEC type for zone: %s, for test: %s)' % (
                 rem_test.TEST_NAME,
                 context.dnssec_type,
-                test.TEST_DNSSECTYPE)
+                test.TEST_DNSSECTYPE))
 
     for test in remove_tests:
         tests.remove(test)
@@ -253,7 +253,7 @@ class Context(object):
         # Get DNSSEC-ordered list of names in zone (including any Empty Non-
         # Terminals if NSEC3-style zone):
         self.node_names = dns_utils.calc_node_names(
-            zone_obj.nodes.keys(),
+            list(zone_obj.nodes),
             self.dnssec_type == 'NSEC3', self.zone_name)
 
     def is_delegated(self, name):

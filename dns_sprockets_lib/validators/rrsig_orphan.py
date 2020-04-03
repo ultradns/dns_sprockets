@@ -54,9 +54,9 @@ class RrsigOrphan(validators.RecTest):
                     rdata,
                     {context.zone_name: context.dnskey_rdataset},
                     now=self.posix_now)
-            except dns.dnssec.UnsupportedAlgorithm, err:
+            except dns.dnssec.UnsupportedAlgorithm as err:
                 result = str(err)
-            except dns.dnssec.ValidationFailure, err:
+            except dns.dnssec.ValidationFailure as err:
                 result = str(err)
 
         return (suggested_tested, result)

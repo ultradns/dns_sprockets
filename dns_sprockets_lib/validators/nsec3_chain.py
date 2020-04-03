@@ -37,12 +37,12 @@ class Nsec3Chain(validators.ZoneTest):
         # one after len(nsec3_dict) hops.  Also keep track of number of times
         # an NSEC3's next value is less than the name[0]; it should be exactly
         # one, for a correctly constructed chain:
-        for (first_name, nsec3_rdata) in nsec3_dict.iteritems():
+        for (first_name, nsec3_rdata) in nsec3_dict.items():
             break
         # pylint: disable=undefined-loop-variable
         name = first_name
         next_less_than_name_cnt = 0
-        for _ in xrange(len(nsec3_dict)):
+        for _ in range(len(nsec3_dict)):
 
             # Encode the next name:
             next_name = base64.b32encode(nsec3_rdata.next).translate(

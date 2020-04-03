@@ -68,21 +68,21 @@ class DNSSprocketsImpl(object):
         context = validators.Context(self.args, zone_obj)
 
         # Print some stats:
-        print '# Checking zone:', context.zone_name
-        print '# Loader: %s from: %s elapsed=%f secs' % (
-            self.args.loader, self.args.source, load_time)
+        print('# Checking zone:', context.zone_name)
+        print('# Loader: %s from: %s elapsed=%f secs' % (
+            self.args.loader, self.args.source, load_time))
         if self.args.force_dnssec_type == 'detect':
-            print '# Zone appears to be DNSSEC type:', context.dnssec_type
+            print('# Zone appears to be DNSSEC type:', context.dnssec_type)
         else:
-            print '# Forcing DNSSEC type for zone to:', context.dnssec_type
-        print '# Extra defines:', self.args.defines
+            print('# Forcing DNSSEC type for zone to:', context.dnssec_type)
+        print('# Extra defines:', self.args.defines)
 
         # Filter tests based on zone's DNSSEC type:
         running_test_names = []
-        for tests_type in tests.keys():
+        for tests_type in list(tests):
             validators.dnssec_filter_tests_by_context(tests[tests_type], context)
             running_test_names += [test.TEST_NAME for test in tests[tests_type]]
-        print '# Running tests:', running_test_names
+        print('# Running tests:', running_test_names)
 
         counts = {'tests': 0, 'errors': 0}
 
@@ -118,16 +118,16 @@ class DNSSprocketsImpl(object):
                                     self.args, test, context, counts,
                                     name=name, ttl=rdataset.ttl, rdata=rdata)
 
-        print '# END RESULT: %d ERRORS in %d tests' % (counts['errors'], counts['tests'])
+        print('# END RESULT: %d ERRORS in %d tests' % (counts['errors'], counts['tests']))
         if hasattr(self.args, 'verbose') and self.args.verbose:
-            print '#  TEST TIMES:'
-            for key in tests.keys():
+            print('#  TEST TIMES:')
+            for key in list(tests):
                 for test in tests[key]:
-                    print '#  %f secs for %s (%d runs for %f secs each)' % (
+                    print('#  %f secs for %s (%d runs for %f secs each)' % (
                         test.total_time, 
                         test.TEST_NAME, 
                         test.total_runs,
-                        test.total_time / test.total_runs)
+                        test.total_time / test.total_runs))
         return (load_time, counts['tests'], counts['errors'])
 
     @staticmethod
@@ -152,9 +152,9 @@ class DNSSprocketsImpl(object):
             if not good:
                 counts['errors'] += 1
             if not good or not args.errors_only:
-                print 'TEST %s(%s) => %s' % (
+                print('TEST %s(%s) => %s' % (
                     test.TEST_NAME,
                     tested,
-                    good and 'OK' or 'FAIL: %s' % (result))
+                    good and 'OK' or 'FAIL: %s' % (result)))
 
 # end of file

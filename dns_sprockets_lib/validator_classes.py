@@ -41,7 +41,7 @@ def _get_descriptions():
     load_all()
     return sorted(
         [(key, val.__doc__.strip(), val.TEST_TYPE, val.TEST_RRTYPE, val.TEST_OPTARGS)
-         for (key, val) in ALL_CLASSES.iteritems()])
+         for (key, val) in ALL_CLASSES.items()])
 
 
 def get_formatted_descriptions():
@@ -58,7 +58,7 @@ def get_formatted_descriptions():
             ''.join(sorted(
                 ['\n    DEFINE: (%s_)%s - %s (default=%s)' % (
                     td[0], opt_name, opt_val[1], opt_val[0])
-                 for (opt_name, opt_val) in td[4].iteritems()])))
+                 for (opt_name, opt_val) in td[4].items()])))
          for td in descs])
 
 # end of file

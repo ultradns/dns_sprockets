@@ -39,13 +39,13 @@ def _run_main(avail_loaders, avail_tests, args):
     try:
         (load_time, _, ret_code) = DNSSprocketsImpl(avail_loaders, avail_tests, args).run()
         total_time = time.time() - start_time
-        print '# TOTAL ELAPSED TIME: %f SECS  LOAD TIME: %f SECS  TEST TIME: %f SECS' % (
-            total_time, load_time, total_time - load_time)
+        print('# TOTAL ELAPSED TIME: %f SECS  LOAD TIME: %f SECS  TEST TIME: %f SECS' % (
+            total_time, load_time, total_time - load_time))
         sys.stdout.flush()
         os._exit(ret_code >= _FATAL_RETCODE and _FATAL_RETCODE - 1 or ret_code)
 
-    except StandardError as err:
-        print 'FATAL: {%s} %s' % (err.__class__.__name__, err)
+    except Exception as err:
+        print('FATAL: {%s} %s' % (err.__class__.__name__, err))
         if args.verbose:
             raise
         sys.stdout.flush()
@@ -57,7 +57,7 @@ def run():
     Run the sprocket command-line application.
     '''
     # Print startup banner:
-    print '#', _BANNER
+    print('#', _BANNER)
 
     # Determine available loaders and tests:
     avail_loaders = utils.public_modules_in_package(loaders, ['tests'])

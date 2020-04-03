@@ -60,7 +60,7 @@ def process_optargs(optargs, receiver_name, receiver):
     :param str receiver_name: The full name prefix (e.g. "rrsig_missing").
     :param obj receiver: The instance that has .args and receives short-named attributes.
     '''
-    for (short_name, (opt_default, _)) in optargs.iteritems():
+    for (short_name, (opt_default, _)) in optargs.items():
 
         full_name = '%s_%s' % (receiver_name, short_name)
 
@@ -72,6 +72,6 @@ def process_optargs(optargs, receiver_name, receiver):
             setattr(receiver, short_name, opt_default)
 
         if hasattr(receiver.args, 'verbose') and receiver.args.verbose:
-            print '# Using %s: %s' % (full_name, getattr(receiver, short_name))
+            print('# Using %s: %s' % (full_name, getattr(receiver, short_name)))
 
 # end of file

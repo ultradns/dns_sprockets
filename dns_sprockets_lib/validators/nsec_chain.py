@@ -35,12 +35,12 @@ class NsecChain(validators.ZoneTest):
         # one after len(nsec_dict) hops.  Also keep track of number of times
         # an NSEC's next value is canonically less than the name[0]; it should
         # be exactly one, for a correctly constructed chain:
-        for (first_name, nsec_rdata) in nsec_dict.iteritems():
+        for (first_name, nsec_rdata) in nsec_dict.items():
             break
         # pylint: disable=undefined-loop-variable
         name = first_name
         next_less_than_name_cnt = 0
-        for _ in xrange(len(nsec_dict)):
+        for _ in range(len(nsec_dict)):
 
             # Get the next name upper'd:
             next_name = str(nsec_rdata.next).upper()
